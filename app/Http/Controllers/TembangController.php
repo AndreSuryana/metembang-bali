@@ -6,6 +6,7 @@ use App\Helpers\ResponseFormatter;
 use App\Models\ViewHistory;
 use EasyRdf\Http\Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class TembangController extends Controller
@@ -359,7 +360,11 @@ class TembangController extends Controller
                         ?subCategory rdfs:subClassOf ?category .
                     }
             EOT;
-        } else if (in_array($category, $this->categories, true)) {
+        } else if ($category == 'SekarAgung') {
+            return <<<EOT
+            VALUES ?category { tb:$category }
+            EOT;
+        } else if (in_array($category, Arr::except($this->categories, 0), true)) {
             return <<<EOT
             VALUES ?category { tb:$category }
                     ?tembang a ?subCategory .
