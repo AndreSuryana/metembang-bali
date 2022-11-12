@@ -175,6 +175,32 @@ class UserSubmissionController extends Controller
                 }
             }
 
+            // Change cover path to cover url
+            if ($tembang->cover_path) {
+                $coverPath = $tembang->cover_path;
+                $tembang['cover_url'] = env('APP_URL') . $coverPath;
+                unset($tembang['cover_path']);
+            }
+
+            // Change audio path to audio url
+            if ($tembang->audio_path) {
+                $audioPath = $tembang->audio_path;
+                $tembang['audio_url'] = env('APP_URL') . $audioPath;
+                unset($tembang['audio_path']);
+            }
+
+            // Format lyrics to array
+            if ($tembang->lyrics) {
+                $lyricsArray = $this->lyricsToArray($tembang->lyrics);
+                $tembang['lyrics'] = $lyricsArray;
+            }
+
+            // Format lyrics idn to array
+            if ($tembang->lyrics_idn) {
+                $lyricsIDNArray = $this->lyricsToArray($tembang->lyrics_idn);
+                $tembang['lyrics'] = $lyricsIDNArray;
+            }
+
             return ResponseFormatter::success($tembang);
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage());
