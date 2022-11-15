@@ -190,15 +190,19 @@ class UserSubmissionController extends Controller
             }
 
             // Format lyrics to array
-            if ($tembang->lyrics) {
+            if (!empty($tembang->lyrics)) {
                 $lyricsArray = $this->lyricsToArray($tembang->lyrics);
                 $tembang['lyrics'] = $lyricsArray;
+            } else {
+                $tembang['lyrics'] = null;
             }
 
             // Format lyrics idn to array
-            if ($tembang->lyrics_idn) {
+            if (!empty($tembang->lyrics_idn)) {
                 $lyricsIDNArray = $this->lyricsToArray($tembang->lyrics_idn);
-                $tembang['lyrics'] = $lyricsIDNArray;
+                $tembang['lyrics_idn'] = $lyricsIDNArray;
+            } else {
+                $tembang['lyrics_idn'] = null;
             }
 
             return ResponseFormatter::success($tembang);
