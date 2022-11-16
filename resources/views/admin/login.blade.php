@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="simple-footer">
-                        Copyright &copy; Metembang 2022 <div class="bullet"></div> <a href="https://github.com/AndreSuryana/">Andre Suryana</a>
+                        Copyright &copy; Metembang Bali 2022 <div class="bullet"></div> <a href="https://github.com/AndreSuryana/">Andre Suryana</a>
                     </div>
                 </div>
             </div>

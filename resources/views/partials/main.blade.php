@@ -87,7 +87,7 @@
                 </div>
                 <footer class="main-footer">
                     <div class="footer-left">
-                        Copyright &copy; Metembang 2022 <div class="bullet"></div> <a href="https://github.com/AndreSuryana/">Andre Suryana</a>
+                        Copyright &copy; Metembang Bali 2022 <div class="bullet"></div> <a href="https://github.com/AndreSuryana/">Andre Suryana</a>
                     </div>
                 </footer>
             </div>
