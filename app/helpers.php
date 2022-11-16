@@ -121,13 +121,12 @@ if (!function_exists('format_lyrics_html')) {
  * @return string
  */
 if (!function_exists('format_usages_html')) {
-    function format_usages_html($usages)
+    function format_usages_html($usages): ?string
     {
-        // return preg_replace("/\r\n|\r|\n/", '<br/>', $lyrics);
         if ($usages == null)
-            return '-';
+            return null;
 
-        $result = '';
+        $result = null;
 
         foreach ($usages as $usage) {
             $result .= ucwords($usage->activity) . '<br/>';
