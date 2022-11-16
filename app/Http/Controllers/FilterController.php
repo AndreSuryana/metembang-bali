@@ -106,7 +106,7 @@ class FilterController extends Controller
                             'id' => $this->parseData($item->usage, true),
                             'type_id' => $request->query('type') ? $request->query('type')
                                 : $this->parseData($item->usageType, true),
-                            'activity' => $this->parseData($item->activity)
+                            'activity' => $item->activity->getValue()
                         ];
 
                         array_push($usages, $usage);
