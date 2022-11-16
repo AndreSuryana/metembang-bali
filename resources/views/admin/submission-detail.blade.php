@@ -103,7 +103,7 @@
                                     @endif
                                     <!-- Usages -->
                                 <dt class="col-sm-3">Kegunaan</dt>
-                                <dd class="col-sm-9">{!! format_usages_html($submission->usages) !!}</dd>
+                                <dd class="col-sm-9">{!! format_usages_html($submission->usages) ?: '-' !!}</dd>
                                 <!-- Created At -->
                                 <dt class="col-sm-3">Tanggal Dibuat</dt>
                                 <dd class="col-sm-9">{{ $submission->created_at->format('d F Y') }}</dd>
