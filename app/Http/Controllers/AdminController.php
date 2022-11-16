@@ -138,7 +138,7 @@ class AdminController extends Controller
             'site_name' => 'Metembang Bali',
             'menu' => true,
             'submissions' => DB::table('tembang_submissions')
-                ->orderBy('id')
+                ->orderByDesc('created_at')
                 ->paginate(10)
         ];
 
