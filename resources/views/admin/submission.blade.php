@@ -38,8 +38,8 @@
                                             </td>
                                             <td>{{ $submission->title }}</td>
                                             <td>{{ $submission->category }}</td>
-                                            <td>{{ $submission->sub_category }}</td>
-                                            <td>{{ $submission->created_at }}</td>
+                                            <td>{{ $submission->sub_category ?: '-' }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($submission->created_at)->format('d F Y') }}</td>
                                             <td>
                                                 <div class="badge {{ submission_status_color($submission->status) }}">
                                                     {{ ucfirst($submission->status) }}</div>
