@@ -45,7 +45,7 @@
                         </div>
                     </div>
                     <div class="simple-footer">
-                        Copyright &copy; Stisla 2018
+                        Copyright &copy; Metembang 2022 <div class="bullet"></div> <a href="https://github.com/AndreSuryana/">Andre Suryana</a>
                     </div>
                 </div>
             </div>
