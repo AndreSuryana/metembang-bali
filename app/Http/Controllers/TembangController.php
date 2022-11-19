@@ -30,11 +30,12 @@ class TembangController extends Controller
 
             // Generate query
             $query = <<<EOT
-                SELECT DISTINCT ?tembang ?title ?category ?subCategory ?coverPath WHERE {
+                SELECT DISTINCT ?tembang ?title ?category ?subCategory ?coverPath ?dateAdded WHERE {
                     $categoryQuery
                     ?tembang tb:hasTitle ?title ;
                         a ?category .
                     OPTIONAL { ?tembang tb:hasCoverPath ?coverPath }
+                    OPTIONAL { ?tembang tb:hasDateAdded ?dateAdded }
                     $usageTypeQuery
                     $usageQuery
                     $moodQuery
@@ -55,6 +56,7 @@ class TembangController extends Controller
                         'category' => $this->parseData($item->category, true),
                         'sub_category' => property_exists($item, 'subCategory') ? $this->parseData($item->subCategory, true) : null,
                         'cover_url' => property_exists($item, 'coverPath') ? env('APP_URL') . $this->parseData($item->coverPath, true) : null,
+                        'created_at' => parse_date_string($this->parseData($item->dateAdded, true))
                     ];
 
                     // If request query category is not part of $categories OR empty/null,
@@ -157,7 +159,7 @@ class TembangController extends Controller
                 $tembang['cover_url'] = property_exists($result[0], 'coverPath') ? env('APP_URL') . $this->parseData($result[0]->coverPath, true) : null;
                 $tembang['audio_url'] = property_exists($result[0], 'audioPath') ? env('APP_URL') . $this->parseData($result[0]->audioPath, true) : null;
                 $tembang['cover_source'] = property_exists($result[0], 'coverSource') ? $this->parseData($result[0]->coverSource, true) : null;
-                $tembang['created_at'] = property_exists($result[0], 'dateAdded') ? $this->parseData($result[0]->dateAdded, true) : null;
+                $tembang['created_at'] = property_exists($result[0], 'dateAdded') ? parse_date_string($this->parseData($result[0]->dateAdded, true)) : null;
 
                 // Rule
                 if (!empty($result[0]->rule)) {
@@ -249,7 +251,7 @@ class TembangController extends Controller
                         'category' => $this->parseData($item->category, true),
                         'sub_category' => property_exists($item, 'subCategory') ? $this->parseData($item->subCategory, true) : null,
                         'cover_url' => property_exists($item, 'coverPath') ? env('APP_URL') . $this->parseData($item->coverPath, true) : null,
-                        'date_added' => $this->parseData($item->dateAdded, true)
+                        'created_at' => parse_date_string($this->parseData($item->dateAdded, true))
                     ];
 
                     array_push($list, $data);
@@ -307,7 +309,7 @@ class TembangController extends Controller
                     'sub_category' => property_exists($result[0], 'subCategory') ? $this->parseData($result[0]->subCategory, true) : null,
                     'cover_url' => property_exists($result[0], 'coverPath') ? env('APP_URL') . $this->parseData($result[0]->coverPath, true) : null,
                     'view_count' => $history->view_count,
-                    'date_added' => $this->parseData($result[0]->dateAdded, true)
+                    'created_at' => parse_date_string($this->parseData($result[0]->dateAdded, true))
                 ];
 
                 array_push($list, $data);

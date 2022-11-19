@@ -1,5 +1,7 @@
 <?php
 
+use Carbon\Carbon;
+
 /**
  * Return html class according to submission status.
  * 
@@ -158,5 +160,16 @@ if (!function_exists('str_remove_blank_lines')) {
     {
         if ($string == null) return null;
         return preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", PHP_EOL, $string);
+    }
+}
+
+/**
+ * Convert date string into timestamps
+ * 
+ * @return timestamps
+ */
+if (!function_exists('parse_date_string')) {
+    function parse_date_string($dateString) {
+        return Carbon::parse($dateString);
     }
 }
