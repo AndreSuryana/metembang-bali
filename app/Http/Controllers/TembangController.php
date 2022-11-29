@@ -40,7 +40,7 @@ class TembangController extends Controller
                     $usageQuery
                     $moodQuery
                     $ruleQuery
-                }
+                } ORDER BY DESC (?dateAdded)
             EOT;
             
             // Execute query
