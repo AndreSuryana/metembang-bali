@@ -144,22 +144,11 @@ class UserController extends Controller
             } 
     
             if ($request->file('photo')) {
-                // Get image file
-                $imageFile = $request->file('photo');
-    
-                // Format path name and save image
-                $now = date('m/d/Y H:i:s', time());
-                $out = substr(hash('md5', $now), 0, 12);
-    
-                $fileName = $out . '.' . $imageFile->getClientOriginalExtension();
-                $folder = '/uploads/user';
-                $filePath = $imageFile->storeAs($folder, $fileName, 'public');
-    
                 // Save photo path to current user
                 $id = Auth::user()->id;
                 $user = User::find($id);
                 $user->update([
-                    'photo_path' => $filePath
+                    'photo_path' => $this->storeFile($request->photo, 'user/photo')
                 ]);
     
                 return ResponseFormatter::success(true);
