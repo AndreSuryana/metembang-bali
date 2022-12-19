@@ -385,7 +385,7 @@ class TembangController extends Controller
         if ($usageType) {
             return <<<EOT
             ?tembang tb:hasUsage ?usage .
-                    ?usage a tb:$usageType .'
+                    ?usage a tb:$usageType .
             EOT;
         } else {
             return null;
