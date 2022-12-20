@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseFormatter;
 use App\Models\ViewHistory;
+use Sorting\SelectionSort;
 use EasyRdf\Http\Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -75,6 +76,22 @@ class TembangController extends Controller
                     }
 
                     array_push($list, $tembang);
+                }
+
+                // Selection Sort Algorithm Implementation
+                if ($request->query('sort')) {
+                    // Format sort request query -> key:direction
+                    // Index 0 -> key, index 1 -> direction
+                    $sortBy = explode(':', $request->query('sort'));
+                    
+                    switch ($sortBy[0]) {
+                        case SelectionSort::KEY_TITLE:
+                            $list = SelectionSort::sortByTitle($list, $sortBy[1]);
+                            break;
+                        case SelectionSort::KEY_DATE:
+                            $list = SelectionSort::sortByDate($list, $sortBy[1]);
+                            break;
+                    }
                 }
 
                 return ResponseFormatter::success([

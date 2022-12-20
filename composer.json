@@ -29,6 +29,9 @@
         },
         "files": [
             "app/helpers.php"
+        ],
+        "classmap": [
+            "app/Sorting"
         ]
     },
     "autoload-dev": {
