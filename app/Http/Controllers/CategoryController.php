@@ -73,7 +73,7 @@ class CategoryController extends Controller
                         $category = [
                             'id' => $this->parseData($item->subCategory, true),
                             'name' => $this->parseData($item->name, true),
-                            'description' => $this->parseData($item->description, true),
+                            'description' => property_exists($item, 'description') ? $this->parseData($item->description, true) : '-',
                         ];
     
                         array_push($subCategories, $category);
