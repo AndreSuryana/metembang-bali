@@ -31,7 +31,7 @@ class UserController extends Controller
                 'phone' => $user->phone,
                 'occupation' => $user->occupation,
                 'address' => $user->address,
-                'photo_url' => $user->photo_path ? env('APP_URL') . 'storage/' . $user->photo_path : null,
+                'photo_url' => $user->photo_path ? env('APP_URL') . $user->photo_path : null,
                 'created_at' => $user->created_at,
                 'updated_at' => $user->updated_at
             ]);
