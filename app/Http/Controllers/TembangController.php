@@ -459,7 +459,7 @@ class TembangController extends Controller
         try {
             $result = $this->sparql->query("SELECT DISTINCT * WHERE {
                 ?subCategory rdfs:subClassOf+ tb:TembangBali .
-                  FILTER ( ?subCategory = tb:Tradisional )
+                  FILTER ( ?subCategory = tb:$category )
             }");
 
             if ($result->numRows() != 0) {
@@ -469,7 +469,6 @@ class TembangController extends Controller
             }
             
         } catch (Exception $e) {
-            dd($e);
             return ResponseFormatter::error($e->getMessage());
         }
     }
