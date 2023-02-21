@@ -22,12 +22,17 @@ class TembangController extends Controller
     public function index(Request $request)
     {
         try {
-            // Get category query
+            // Get queries
             $categoryQuery = $this->getCategoryQuery($request->query('category'));
             $usageTypeQuery = $this->getUsageTypeQuery($request->query('usage_type'));
             $usageQuery = $this->getUsageQuery($request->query('usage'));
             $moodQuery = $this->getMoodQuery($request->query('mood'));
             $ruleQuery = $this->getRuleQuery($request->query('rule'));
+
+            // Validate category query
+            if ($categoryQuery == null) {
+                return ResponseFormatter::error('Invalid query parameters', 400);
+            }
 
             // Generate query
             $query = <<<EOT
@@ -379,21 +384,28 @@ class TembangController extends Controller
                         ?subCategory rdfs:subClassOf ?category .
                     }
             EOT;
-        } else if ($category == 'SekarAgung') {
-            return <<<EOT
-            VALUES ?category { tb:$category }
-            EOT;
-        } else if (in_array($category, Arr::except($this->categories, 0), true)) {
-            return <<<EOT
-            VALUES ?category { tb:$category }
-                    ?tembang a ?subCategory .
-                    ?subCategory rdfs:subClassOf ?category .
-            EOT;
         } else {
-            return <<<EOT
-            VALUES ?category { tb:$category }
-                        ?category rdfs:subClassOf ?subCategory .
-            EOT;
+            if ($this->isCategoryValid($category)) {
+                if ($category == 'SekarAgung') {
+                    return <<<EOT
+                    VALUES ?category { tb:$category }
+                    EOT;
+                } else if (in_array($category, Arr::except($this->categories, 0), true)) {
+                    return <<<EOT
+                    VALUES ?category { tb:$category }
+                            ?tembang a ?subCategory .
+                            ?subCategory rdfs:subClassOf ?category .
+                    EOT;
+                } else {
+                    return <<<EOT
+                    VALUES ?category { tb:$category }
+                            ?category rdfs:subClassOf ?subCategory .
+                    EOT;
+                }      
+            } else {
+                // Return null if request query 'category' is invalid
+                return null; 
+            }
         }
     }
 
@@ -439,6 +451,26 @@ class TembangController extends Controller
             EOT;
         } else {
             return null;
+        }
+    }
+
+    private function isCategoryValid(string $category): bool
+    {
+        try {
+            $result = $this->sparql->query("SELECT DISTINCT * WHERE {
+                ?subCategory rdfs:subClassOf+ tb:TembangBali .
+                  FILTER ( ?subCategory = tb:Tradisional )
+            }");
+
+            if ($result->numRows() != 0) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (Exception $e) {
+            dd($e);
+            return ResponseFormatter::error($e->getMessage());
         }
     }
 }
