@@ -461,7 +461,7 @@ class TembangController extends Controller
     {
         if ($keyword) {
             return <<<EOT
-            FILTER(contains(lcase(str(?lyrics)), lcase("$keyword")))
+            FILTER(contains(lcase(str(?title)), lcase("$keyword")) || contains(lcase(str(?lyrics)), lcase("$keyword")))
             EOT;
         } else {
             return null;
