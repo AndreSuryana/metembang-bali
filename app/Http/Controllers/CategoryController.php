@@ -61,8 +61,8 @@ class CategoryController extends Controller
                 $result = $this->sparql->query("
                     SELECT ?subCategory ?name ?description WHERE {
                         ?subCategory rdfs:subClassOf tb:" . $request->query('name') . " ;
-                            rdfs:label ?name ;
-                            tb:description ?description .
+                            rdfs:label ?name .
+                            OPTIONAL { ?subCategory tb:description ?description } .
                     }
                 ");
     
