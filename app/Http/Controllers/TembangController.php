@@ -28,6 +28,7 @@ class TembangController extends Controller
             $usageQuery = $this->getUsageQuery($request->query('usage'));
             $moodQuery = $this->getMoodQuery($request->query('mood'));
             $ruleQuery = $this->getRuleQuery($request->query('rule'));
+            $keywordQuery = $this->getKeywordQuery($request->query('q'));
 
             // Validate category query
             if ($categoryQuery == null) {
@@ -39,6 +40,7 @@ class TembangController extends Controller
                 SELECT DISTINCT ?tembang ?title ?category ?subCategory ?coverPath ?dateAdded WHERE {
                     $categoryQuery
                     ?tembang tb:hasTitle ?title ;
+                        tb:hasLyrics ?lyrics ;
                         a ?category .
                     OPTIONAL { ?tembang tb:hasCoverPath ?coverPath }
                     OPTIONAL { ?tembang tb:hasDateAdded ?dateAdded }
@@ -46,6 +48,7 @@ class TembangController extends Controller
                     $usageQuery
                     $moodQuery
                     $ruleQuery
+                    $keywordQuery
                 } ORDER BY DESC (?dateAdded)
             EOT;
             
@@ -448,6 +451,17 @@ class TembangController extends Controller
         if ($rule) {
             return <<<EOT
             ?tembang tb:hasRule tb:$rule .
+            EOT;
+        } else {
+            return null;
+        }
+    }
+
+    private function getKeywordQuery(String $keyword = null)
+    {
+        if ($keyword) {
+            return <<<EOT
+            FILTER(contains(lcase(str(?lyrics)), lcase("$keyword")))
             EOT;
         } else {
             return null;
